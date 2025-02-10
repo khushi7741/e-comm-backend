@@ -1,4 +1,6 @@
 const User = require("../models/users");
+const jwt = require("jsonwebtoken");
+const jwtKey = "e-comm";
 
 const UserSignUp = async (req, resp) => {
   try {
@@ -7,7 +9,12 @@ const UserSignUp = async (req, resp) => {
     result = result.toObject();
     delete result.password;
     delete result.confirmPassword;
-    resp.send(result);
+    jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+      if (err) {
+        resp.send({ result: "something went wrong,please try again" });
+      }
+      resp.send({ result, auth: token });
+    });
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +28,12 @@ const UserLogin = async (req, resp) => {
         .select("-password")
         .select("-confirmPassword");
       if (user) {
-        resp.send(user);
+        jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+          if (err) {
+            resp.send({ result: "something went wrong,please try again" });
+          }
+          resp.send({ user, auth: token });
+        });
       } else {
         resp.send({ result: "No User Found" });
       }
@@ -40,7 +52,12 @@ const AdminSignUp = async (req, resp) => {
     result = result.toObject();
     delete result.password;
     delete result.confirmPassword;
-    resp.send(result);
+    jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+      if (err) {
+        resp.send({ result: "something went wrong,please try again" });
+      }
+      resp.send({ result, auth: token });
+    });
   } catch (error) {
     console.log(error);
   }
@@ -54,7 +71,12 @@ const AdminLogin = async (req, resp) => {
         .select("-password")
         .select("-confirmPassword");
       if (user) {
-        resp.send(user);
+        jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+          if (err) {
+            resp.send({ result: "something went wrong,please try again" });
+          }
+          resp.send({ user, auth: token });
+        });
       } else {
         resp.send({ result: "No User Found" });
       }
@@ -73,7 +95,12 @@ const StoreSignUp = async (req, resp) => {
     result = result.toObject();
     delete result.password;
     delete result.confirmPassword;
-    resp.send(result);
+    jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+      if (err) {
+        resp.send({ result: "something went wrong,please try again" });
+      }
+      resp.send({ result, auth: token });
+    });
   } catch (error) {
     console.log(error);
   }
@@ -87,7 +114,12 @@ const StoreLogin = async (req, resp) => {
         .select("-password")
         .select("-confirmPassword");
       if (user) {
-        resp.send(user);
+        jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+          if (err) {
+            resp.send({ result: "something went wrong,please try again" });
+          }
+          resp.send({ user, auth: token });
+        });
       } else {
         resp.send({ result: "No User Found" });
       }
