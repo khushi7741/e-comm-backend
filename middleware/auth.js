@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const jwtKey = "e-comm";
 const verifyToken = async (req, resp, next) => {
-  console.log("middleware called");
   try {
     let token = req.headers["authorization"];
     if (token) {
